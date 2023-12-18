@@ -1,4 +1,4 @@
-struct ConnectionParamsOfDB {
+struct ConnectionDataBaseParams {
     bool db_allow_exceptions;
     DBLogLevel db_log_level;
     string_view db_name;
@@ -11,7 +11,7 @@ struct QueryFilterParams {
     string_view name_filter;
 };
 
-std::optional<DBHandler> GetDBHanler(const ConnectionParamsOfDB &connection_db_params) {
+std::optional<DBHandler> GetDBHandler(const ConnectionDataBaseParams &connection_db_params) {
     DBConnector connector(connection_db_params.db_allow_exceptions, connection_db_params.db_log_level);
     DBHandler db;
     if (connection_db_params.db_name.starts_with("tmp."s)) {
@@ -35,8 +35,8 @@ DBQuery GetPersonDBQuery(const QueryFilterParams &query_filter_params, const DBH
     DBQuery query(query_str.str());
 }
 
-vector<Person> LoadPersons(const ConnectionParamsOfDB &connection_db_params, const QueryFilterParams &query_filter_params) {
-    auto db_handler = GetDBHanler(connection_db_params);
+vector<Person> LoadPersons(const ConnectionDataBaseParams &connection_db_params, const QueryFilterParams &query_filter_params) {
+    auto db_handler = GetDBHandler(connection_db_params);
     if (!db_handler)
     {
         return {};
